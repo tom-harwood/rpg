@@ -1,0 +1,45 @@
+package rpg.emitters;
+
+import rpg.models.Node;
+import rpg.models.ArithmeticOpcode;
+
+public class ArithmeticChecker implements Emitter<ArithmeticOpcode>
+{
+    public void generate(Node<ArithmeticOpcode> root, Object verifierToken)
+    {
+        check(root, compute(root));
+    }
+
+    Integer compute(Node<ArithmeticOpcode> node)
+    {
+        switch (node.getOpcode()) {
+            case IntLiteral:
+                return (Integer) node.getPayload();
+            case Add:
+                return check(node, compute(node.getChildren().get(0)) + compute(node.getChildren().get(1)));
+            case Subtract:
+                return check(node, compute(node.getChildren().get(0)) - compute(node.getChildren().get(1)));
+            case Multiply:
+                return check(node, compute(node.getChildren().get(0)) * compute(node.getChildren().get(1)));
+            case Divide:
+                return check(node, compute(node.getChildren().get(0)) / compute(node.getChildren().get(1)));
+            case Modulus:
+                return check(node, compute(node.getChildren().get(0)) % compute(node.getChildren().get(1)));
+            default:
+                throw new IllegalStateException("Unknown opcode: " + node.getOpcode().toString());
+        }
+    }
+
+    int check(Node<ArithmeticOpcode> node, int actual)
+    {
+        Integer expected = (Integer)node.getPayload();
+        if (expected == actual) {
+            return actual;
+        } else {
+            System.err.printf("FAILED actual: %d, node: %s\n", actual, node);
+            System.exit(1);
+        }
+
+        throw new IllegalStateException("Unreachable!");
+    }
+}

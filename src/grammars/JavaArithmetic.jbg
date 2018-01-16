@@ -1,0 +1,46 @@
+<Grammar reducerClass="rpg.emitters.ArithmeticVisitor" nodeClass="rpg.models.Node" nonterminalClass="rpg.models.ArithmeticOpcode">
+
+    <Semantics>
+        <Nonterminal nonterminal="Program" class="java.lang.Object"/>
+        <Nonterminal nonterminal="Int" class="java.lang.Object"/>
+    </Semantics>
+
+    <Closure nonterminal="Program" sourceNonterminal="Int">
+        <postCallback name="program"/>
+    </Closure>
+
+    <Pattern nonterminal="Int" nodeType="IntLiteral">
+        <postCallback name="intLiteral"/>
+    </Pattern>
+
+    <Pattern nonterminal="Int" nodeType="Add">
+        <child nonterminal="Int"/>
+        <child nonterminal="Int"/>
+        <postCallback name="add"/>
+    </Pattern>
+
+    <Pattern nonterminal="Int" nodeType="Subtract">
+        <child nonterminal="Int"/>
+        <child nonterminal="Int"/>
+        <postCallback name="subtract"/>
+    </Pattern>
+
+    <Pattern nonterminal="Int" nodeType="Multiply">
+        <child nonterminal="Int"/>
+        <child nonterminal="Int"/>
+        <postCallback name="multiply"/>
+    </Pattern>
+
+    <Pattern nonterminal="Int" nodeType="Divide">
+        <child nonterminal="Int"/>
+        <child nonterminal="Int"/>
+        <postCallback name="divide"/>
+    </Pattern>
+
+    <Pattern nonterminal="Int" nodeType="Modulus">
+        <child nonterminal="Int"/>
+        <child nonterminal="Int"/>
+        <postCallback name="modulus"/>
+    </Pattern>
+
+</Grammar>
